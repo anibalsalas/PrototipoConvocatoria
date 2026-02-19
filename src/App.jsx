@@ -70,18 +70,18 @@ const MODULES = [
 
 const JUST = {
   "M05-LOGIN": "Obligatoria como punto de entrada. Sin autenticación JWT no se accede a ningún módulo. BCrypt strength=12 para contraseñas. Access Token 30min + Refresh Token 24h. Alineado con la capa de Seguridad del SAD (7 capas de defensa en profundidad).",
-  "M01-LIST": "Tabla paginada server-side (20 reg/pág) que alimenta el flujo BPMN Etapa 1. Réplica mejorada del 'Listado Perfiles' de SIPROS-Defensoría (cap_02, cap_19, cap_24). Columnas mapeadas directamente a TBL_PERFIL_PUESTO. Filtro por dependencia y estado. Acciones: Editar, Historial, PDF, Solicitar Aprobación.",
+  "M01-LIST": "Tabla paginada server-side (20 reg/pág) que alimenta el flujo BPMN Etapa 1. Columnas mapeadas directamente a TBL_PERFIL_PUESTO. Filtro por dependencia y estado. Acciones: Editar, Historial, PDF, Solicitar Aprobación.",
   "M01-NEW": "Formulario multi-tab (4 pestañas) basado en RPE 065-2020-SERVIR. Tab 1: Datos Generales → campos de TBL_PERFIL_PUESTO. Tab 2: Formación Académica. Tab 3: Conocimientos (matriz ofimática con nivel dominio). Tab 4: Experiencia. Diseño tomado de SIPROS (cap_10, cap_33) que usa exactamente 4 tabs numerados.",
   "M01-VALID": "Gateway BPMN '¿Es correcto?' de Etapa 1, ORH. Pantalla de revisión con checklist MPP vigente. Si aprueba → APROBADO + genera PDF + notifica Área Solicitante. Si rechaza → RECHAZADO + motivo. Consume E3 (validar) y E4 (aprobar).",
   "M01-PDF": "Visor PDF inline generado por JasperReports. Tomado directamente de SIPROS (cap_41) donde se muestra PDF del Perfil del Puesto embebido con controles de zoom y navegación. Consolida datos de TBL_PERFIL_PUESTO.",
   "M01-REQ": "Formulario simple del Área Solicitante. Asocia perfil APROBADO al requerimiento. SEQ_NUM_REQUERIMIENTO genera numeración automática. Estado ELABORADO. Tarea BPMN 'Elaborar Requerimiento de Contratación'.",
   "M01-PPTO": "Pantalla exclusiva de OPP (ROLE_OPP). Gateway BPMN '¿Existen recursos?'. Si SÍ → emite certificación + SIAF → CON_PRESUPUESTO. Si NO → SIN_PRESUPUESTO → evento fin error. Sin esto no se puede crear convocatoria.",
-  "M01-MOTOR": "Configuración RF-14 con validación CK_CONV_PESOS (suma=100%). Sliders visuales para distribución de pesos. Umbrales mínimos por etapa. Estado CONFIGURADO habilita Etapa 2. No existe pantalla equivalente en SIPROS — es mejora funcional de SISCONV.",
+  "M01-MOTOR": "Configuración RF-14 con validación CK_CONV_PESOS (suma=100%). Sliders visuales para distribución de pesos. Umbrales mínimos por etapa. Estado CONFIGURADO habilita Etapa 2.",
   "M02-CONV": "Formulario basado en pantalla 'Editar Convocatoria' de SIPROS (cap_07). Campos: N° CAS automático, Objeto, Fuente Financiamiento, Código AIRHSP, Memorando, Duración, Horario (timepicker De/A), Lugar. Hereda pesos del Motor RF-14.",
-  "M02-CRONO": "Tabla de cronograma con etapas, fechas, responsables. Basado en pantalla 'Cronogramas' de SIPROS (cap_04, cap_12). Filtro por año. Columnas: Código, Aprobación, Publicación, Evaluación Escrita, Convocatorias asociadas.",
-  "M02-COMITE": "Registro de miembros del comité. Basado en 'Actas de Selección' de SIPROS (cap_08) con botones de reporte y notificación. DataTable con Copiar/CSV/Imprimir. Columnas: Nombre, Oficina, Cargo, Eliminar.",
+  "M02-CRONO": "Tabla de cronograma con etapas, fechas, responsables. Filtro por año. Columnas: Código, Aprobación, Publicación, Evaluación Escrita, Convocatorias asociadas.",
+  "M02-COMITE": "Registro de miembros del comité con botones de reporte y notificación. DataTable con Copiar/CSV/Imprimir. Columnas: Nombre, Oficina, Cargo, Eliminar.",
   "M02-FACT": "Tabla dinámica de factores por etapa evaluación (CURRICULAR/TECNICA/ENTREVISTA). Cada factor: criterio, puntaje max/min, peso, orden. Valida consistencia con pesos del Motor RF-14. Alimenta TBL_FACTOR_EVALUACION.",
-  "M02-ACTA": "Dos fases: (1) Generar PDF con JasperReports (E13), (2) Cargar acta firmada multipart/form-data (E14). Basado en proceso real SIPROS donde se genera el acta, se descarga, firma físicamente, escanea y sube.",
+  "M02-ACTA": "Dos fases: (1) Generar PDF con JasperReports (E13), (2) Cargar acta firmada multipart/form-data (E14), Aquí se genera el acta, se descarga, firma físicamente, escanea y sube.",
   "M02-PUB": "Panel de publicación SIMULTÁNEA en Portal ACFFAA + Talento Perú (D.S. 065-2011-PCM). Genera bases PDF (E16), aprueba (E15). Notifica Gestión de Empleo. Mínimo 10 días hábiles publicación.",
   "M02-BASES": "Visor PDF de bases completas. Consolida 4 tablas: TBL_CONVOCATORIA + CRONOGRAMA + PERFIL_PUESTO + FACTOR_EVALUACION. Incluye perfil, requisitos, cronograma, factores, bonificaciones, marco legal.",
   "M03-POST": "Formulario multi-step para postulante. Step 1: Datos personales (TBL_POSTULANTE). Step 2: Condición especial (checkboxes bonificaciones). Step 3: DDJJ obligatorias RF-06. Step 4: Expediente. Estado → REGISTRADO en Statechart.",
@@ -277,7 +277,7 @@ const ScreenContent = ({ sid }) => {
             <Field label="Tipo" type="select" req ph="CAS" />
             <Field label="Motivo Requerimiento" type="select" req />
             <Field label="Órgano" type="select" req ph="SG - SECRETARÍA GENERAL" />
-            <Field label="Unidad Orgánica" type="select" req ph="OGITD - OF. GRAL. TECNOLOGÍAS..." />
+            <Field label="Unidad Orgánica" type="select" req ph="OI - OF. INFORMÁTICA..." />
             <Field label="Denominación Puesto" type="select" req />
             <Field label="Nivel Puesto" type="select" req />
             <Field label="Nombre del cargo/puesto" req ph="Profesional P-6" />
