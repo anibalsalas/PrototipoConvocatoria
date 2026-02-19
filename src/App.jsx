@@ -238,7 +238,7 @@ const ScreenContent = ({ sid }) => {
         <div style={{ maxWidth: 380, margin: "20px auto", textAlign: "center" }}>
           <div style={{ width: 64, height: 64, borderRadius: 16, background: `linear-gradient(135deg, ${C.navy}, ${C.blue})`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px", fontSize: 28 }}>🏛️</div>
           <div style={{ fontSize: 18, fontWeight: 800, color: C.navy, letterSpacing: -0.5 }}>SISCONV-ACFFAA</div>
-          <div style={{ fontSize: 10, color: C.g400, marginBottom: 24, letterSpacing: 1 }}>SISTEMA DE CONTRATACIÓN CAS v2.0</div>
+          <div style={{ fontSize: 10, color: C.g400, marginBottom: 24, letterSpacing: 1 }}>SISTEMA DE CONTRATACIÓN CAS </div>
           <div style={{ textAlign: "left" }}>
             <Field label="Usuario" req ph="Ingrese su usuario" />
             <div style={{ height: 10 }} />
